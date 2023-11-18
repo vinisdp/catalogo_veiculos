@@ -1,20 +1,18 @@
 from flask import request
-from flask_restplus import Resource, fields
+from flask_restx import Resource, fields
 
 from models.cars import CarModel
 from schemas.cars import CarSchema
 
 from server.instance import server
 
-car_ns = server.car_ns
-
 ITEM_NOT_FOUND = "Book not found."
 
-
+car_ns = server.car_ns
 car_schema = CarSchema()
 car_list_schema = CarSchema(many=True)
 
-# Model required by flask_restplus for expect
+# Model required by flask_restx for expect
 item = car_ns.model('Car', {
     'marca': fields.String('Marca do carro'),
     'modelo': fields.String('Modelo do carro'),
@@ -22,8 +20,8 @@ item = car_ns.model('Car', {
     'valor': fields.String('Valor do carro'),
 })
 
-
-class Book(Resource):
+@car_ns.route('/cars/<int:id>')
+class Car(Resource):
 
     def get(self, id):
         car_data = CarModel.find_by_id(id)
@@ -38,7 +36,7 @@ class Book(Resource):
             return '', 204
         return {'message': ITEM_NOT_FOUND}, 404
 
-    @book_ns.expect(item)
+    @car_ns.expect(item)
     def put(self, id):
         car_data = CarModel.find_by_id(id)
         car_json = request.get_json()
@@ -55,7 +53,7 @@ class Book(Resource):
         car_data.save_to_db()
         return car_schema.dump(car_data), 200
 
-
+@car_ns.route('/cars')
 class CarList(Resource):
     @car_ns.doc('Get all the Items')
     def get(self):

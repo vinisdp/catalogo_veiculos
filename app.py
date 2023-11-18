@@ -1,5 +1,8 @@
 from flask import Flask, Blueprint, jsonify
-from flask_restplus import Api
+import werkzeug
+werkzeug.cached_property = werkzeug.utils.cached_property
+from werkzeug.utils import cached_property
+from flask_restx import Api
 from ma import ma
 from db import db
 
@@ -12,9 +15,7 @@ api = server.api
 app = server.app
 
 
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 
 @api.errorhandler(ValidationError)
@@ -22,10 +23,10 @@ def handle_validation_error(error):
     return jsonify(error.messages), 400
 
 
-api.add_resource(Car, '/cars/<int:id>')
-api.add_resource(CarList, '/cars')
-
 if __name__ == '__main__':
     db.init_app(app)
     ma.init_app(app)
+    with app.app_context():
+        # Cria as tabelas no banco de dados antes de iniciar o servidor
+        db.create_all()
     server.run()

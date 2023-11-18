@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint
-from flask_restplus import Api
+from flask_restx import Api
 from ma import ma
 from db import db
 
@@ -21,7 +21,7 @@ class Server():
 
         super().__init__()
 
-    def book_ns(self, ):
+    def car_ns(self, ):
         return self.api.namespace(name='Cars', description='Car related operations', path='/')
 
     def run(self, ):
