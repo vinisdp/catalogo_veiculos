@@ -1,7 +1,7 @@
 # routes/user_routes.py
-from flask import request
+from flask import jsonify, redirect, request, url_for
 from flask_restx import Resource, fields
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, set_access_cookies
 from werkzeug.security import check_password_hash
 from models.user import UserModel
 from schemas.user import UserSchema
@@ -39,19 +39,23 @@ class UserLogin(Resource):
 
         user = UserModel.query.filter_by(username=username).first()
         print(user.password)
+        response = jsonify({"msg": "Login successful"})
         if user and check_password(user.password, password):
             access_token = create_access_token(identity=user.username)
+            set_access_cookies(response, access_token)
             return {'access_token': access_token}, 200
         else:
             return {'message': 'Credenciais inválidas'}, 401
-        
+
+
 @user_ns.route('/users/register')
 class UserRegister(Resource):
 
     @user_ns.doc('Get all the Items')
     def get(self):
         return user_list_schema.dump(UserModel.find_all()), 200
-    
+
+    @jwt_required()    
     @user_ns.expect(user_create_model)
     @user_ns.doc('Create an User')
     def post(self):

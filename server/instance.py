@@ -19,6 +19,10 @@ class Server():
         self.app.config["JWT_ALGORITHM"] = "HS256"
         self.app.config["JWT_SECRET_KEY"] = "26361e7fcb00fda02dadffd793fdd70702306b2608ed28e96fe0a0e45b696d8a"
         self.app.config["SECRET_KEY"] = "2eecdae4c7866551d62fa910051fb6658ff347bf5ef1da64d3adda7899e01df4"
+        self.app.config["JWT_REFRESH_TOKEN_EXPIRES"] = 30
+        self.app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 20
+        self.app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+        self.app.config['JWT_SESSION_COOKIE'] = True
 
         self.car_ns = self.car_ns()
         self.user_ns = self.user_ns()
