@@ -18,11 +18,15 @@ class Server():
         self.app.config['PROPAGATE_EXCEPTIONS'] = True
 
         self.car_ns = self.car_ns()
+        self.user_ns = self.user_ns()
 
         super().__init__()
 
     def car_ns(self, ):
         return self.api.namespace(name='Cars', description='Car related operations', path='/')
+    
+    def user_ns(self, ):
+        return self.api.namespace(name='User', description='User related operations', path='/')
 
     def run(self, ):
         self.app.run(

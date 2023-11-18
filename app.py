@@ -7,15 +7,13 @@ from ma import ma
 from db import db
 
 from resources.cars import Car, CarList, car_ns
+from resources.user import UserLogin
 from marshmallow import ValidationError
 
 from server.instance import server
 
 api = server.api
 app = server.app
-
-
-
 
 
 @api.errorhandler(ValidationError)
