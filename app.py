@@ -1,4 +1,5 @@
 from flask import Flask, Blueprint, jsonify
+from flask_jwt_extended import JWTManager
 import werkzeug
 werkzeug.cached_property = werkzeug.utils.cached_property
 from werkzeug.utils import cached_property
@@ -7,13 +8,15 @@ from ma import ma
 from db import db
 
 from resources.cars import Car, CarList, car_ns
-from resources.user import UserLogin
+from resources.user import UserLogin, UserRegister
 from marshmallow import ValidationError
 
 from server.instance import server
 
 api = server.api
 app = server.app
+
+jwt = JWTManager(app)
 
 
 @api.errorhandler(ValidationError)

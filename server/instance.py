@@ -16,6 +16,9 @@ class Server():
         self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
         self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         self.app.config['PROPAGATE_EXCEPTIONS'] = True
+        self.app.config["JWT_ALGORITHM"] = "HS256"
+        self.app.config["JWT_SECRET_KEY"] = "26361e7fcb00fda02dadffd793fdd70702306b2608ed28e96fe0a0e45b696d8a"
+        self.app.config["SECRET_KEY"] = "2eecdae4c7866551d62fa910051fb6658ff347bf5ef1da64d3adda7899e01df4"
 
         self.car_ns = self.car_ns()
         self.user_ns = self.user_ns()

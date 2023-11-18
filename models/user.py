@@ -1,7 +1,9 @@
 # models/user.py
+import hashlib
 from db import db
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
+from typing import List
 
 class UserModel(db.Model):
     __tablename__ = "user"
@@ -21,9 +23,12 @@ class UserModel(db.Model):
     def json(self):
         return {'username': self.username, 'name': self.name, 'email': self.email}
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-
+    
+    
+    @classmethod
+    def find_all(cls) -> List["UserModel"]:
+        return cls.query.all()
+    
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
@@ -34,3 +39,7 @@ class UserModel(db.Model):
         if user and user.check_password(password):
             return user
         return None
+    
+    def save_to_db(self) -> None:
+        db.session.add(self)
+        db.session.commit()

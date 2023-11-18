@@ -29,7 +29,7 @@ class CarModel(db.Model):
 
     @classmethod
     def find_by_marca(cls, modelo) -> List["CarModel"]:
-        return cls.query.filter_by(modulo=modulo).all()
+        return cls.query.filter_by(modelo=modelo).all()
 
     @classmethod
     def find_by_id(cls, _id) -> "CarModel":

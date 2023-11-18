@@ -1,4 +1,5 @@
 from flask import request
+from flask_jwt_extended import jwt_required
 from flask_restx import Resource, fields
 
 from models.cars import CarModel
@@ -6,7 +7,7 @@ from schemas.cars import CarSchema
 
 from server.instance import server
 
-ITEM_NOT_FOUND = "Book not found."
+ITEM_NOT_FOUND = "Car not found."
 
 car_ns = server.car_ns
 car_schema = CarSchema()
@@ -58,7 +59,8 @@ class CarList(Resource):
     @car_ns.doc('Get all the Items')
     def get(self):
         return car_list_schema.dump(CarModel.find_all()), 200
-
+    
+    @jwt_required()
     @car_ns.expect(item)
     @car_ns.doc('Create an Item')
     def post(self):
