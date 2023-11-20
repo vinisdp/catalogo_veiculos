@@ -19,6 +19,7 @@ item = car_ns.model('Car', {
     'modelo': fields.String('Modelo do carro'),
     'ano': fields.Integer(0),
     'valor': fields.String('Valor do carro'),
+    'imagem': fields.String('Imagem do carro'),
 })
 
 @car_ns.route('/cars/<int:id>')
@@ -47,6 +48,7 @@ class Car(Resource):
             car_data.modelo = car_json['modelo']
             car_data.ano = car_json['ano']
             car_data.valor = car_json['valor']
+            car_data.imagem = car_json['imagem']
             
         else:
             car_data = car_schema.load(car_json)
