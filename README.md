@@ -13,6 +13,12 @@ Reprositorio criado para desenvolvimento de api flask python.
 
 
 
+## Funcionalidades
+
+- Cadastro e listagem de veiculos
+- Cadastro de usuario e login
+
+
 ## Documentação da API
 
 
@@ -29,3 +35,7 @@ Windows e Linux
   python app.py
 ```
     
+## Autores
+
+- [@vinisdp](https://www.github.com/vinisdp)
+
